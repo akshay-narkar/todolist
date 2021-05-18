@@ -1,0 +1,7 @@
+.main {
+  min-height: calc(100vh - 49.6px);
+}
+
+a {
+  text-decoration: none;
+}
