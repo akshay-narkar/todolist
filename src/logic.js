@@ -31,6 +31,7 @@ function logic() {
     const list1 = new Createlist1(list.value);
     liststasks.push(list1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
+    document.location.href = 'dist/';
   };
 
   // function addtolist () {
