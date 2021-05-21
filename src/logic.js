@@ -1,7 +1,8 @@
 const submitlist = document.querySelector('#submitlist');
-const submittask = document.querySelector('#submittask');
+// const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
-const listoflist1 = document.querySelectorAll('.listoflist');
+// const listoflist1 = document.querySelectorAll('.listoflist');
+const list = document.getElementById('list');
 
 function logic() {
   class Createlist1 {
@@ -26,12 +27,11 @@ function logic() {
     return liststasks;
   }
 
-  const createlist = (e) => {
+  const createlist = () => {
     const liststasks = localstorage1();
     const list1 = new Createlist1(list.value);
     liststasks.push(list1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
-    document.location.href = 'dist/';
   };
 
   // function addtolist () {
@@ -46,5 +46,6 @@ function logic() {
 
   // submittask.addEventListener('click',addtotask)
   submitlist.addEventListener('click', createlist);
+  list.value = '';
 }
 export default logic;
