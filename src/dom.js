@@ -49,15 +49,20 @@ export function dom() {
     for (let i = 1; i < lists.length; i += 1) {
       const link = document.createElement('a');
       link.setAttribute('href', '#');
+      link.setAttribute('class','d-flex my-2 justify-content-center');
       const tablerow = document.createElement('h5');
       link.appendChild(tablerow);
       tablerow.setAttribute('id', `projectlist${i}`);
 
-      tablerow.setAttribute('class', 'text-center text-white m-4 listoflist');
+      tablerow.setAttribute('class', 'text-white p-2 w-50 text-center listoflist');
       tablerow.innerHTML = `
                      ${lists[i].list} 
                   
                     `;
+      const listdelbtn = document.createElement('button');
+      link.appendChild(listdelbtn);
+      listdelbtn.setAttribute('class', 'btn btn-danger  btn-sm');
+      listdelbtn.innerHTML='Delete'
       table.appendChild(link);
     }
   }
