@@ -36,10 +36,21 @@ export function dom() {
     }
   });
 
+function localstorage1() {
+  let liststasks = [];
+    if (localStorage.getItem('liststore')) {
+          liststasks = JSON.parse(localStorage.liststore);
+    }
+    return liststasks;
+  }
+
+
   function deletelist(event) {
     let remove = event.target.previousSibling.id;
     remove = remove.slice(-1);
-    const liststasks = JSON.parse(localStorage.liststore);
+   
+    // const liststasks = JSON.parse(localStorage.liststore);
+   const liststasks = localstorage1();
     liststasks.splice(remove, 1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
     event.target.parentElement.remove();
@@ -48,6 +59,49 @@ export function dom() {
       content1.removeChild(content1.lastChild);
     }
   }
+
+
+//   function showtasklist(selecteditem){
+
+//     const listname = document.createElement('h4');
+//       content1.appendChild(listname);
+//       listname.setAttribute('class', 'text-center text-dark');
+//       listname.innerHTML = localStorage.selectedlist;
+//       showtasklist(localStorage.getItem('selectedlist'));
+
+// //  for(let i=0;i<listtasks.length;i+=1)
+// //           { 
+// //             const selectedlist = localStorage.getItem('selectedlist')
+           
+// //             if(listtasks[i].list === selectedlist){
+               
+// //               listtasks[i].todos.push(tasks);
+// //               localStorage.setItem('liststore', JSON.stringify(listtasks));
+// //               break;
+// //             }
+//     const listtasks = localstorage1();
+
+//   for(let i=0;i<listtasks.length;i+=1){
+//     if(listtasks[i].list === selecteditme){
+//       let table = document.createElement('table')
+//       content1.appendChild(table);
+      
+//       let tablerow = document.createElement('tr');
+//       table.appendChild(tablerow);
+//       tablerow.setAttribute('id',task);
+//               tablerow.innerHTML = `
+//                     <td scope="row">${i+1}</td>
+//                     <td>${books[i].book}</td>
+//                     <td>${books[i].author}</td>
+//                     <td>${books[i].pages}</td>
+//                     <td><button class="btn btn-success" id="readbook">${read}</button></td>
+//                     <td><button class="btn btn-danger" id="remove">Delete</button></td> 
+
+//                     `
+//               table.appendChild(tablerow);
+//       }
+  
+//   }
 
   function showlistname() {
     if (localStorage.getItem('selectedlist')) {
@@ -58,6 +112,7 @@ export function dom() {
       content1.appendChild(listname);
       listname.setAttribute('class', 'text-center text-dark');
       listname.innerHTML = localStorage.selectedlist;
+      // showtasklist(localStorage.getItem('selectedlist'));
     }
   }
 
