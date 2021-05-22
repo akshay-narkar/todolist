@@ -36,21 +36,20 @@ export function dom() {
     }
   });
 
-function localstorage1() {
-  let liststasks = [];
+  function localstorage1() {
+    let liststasks = [];
     if (localStorage.getItem('liststore')) {
-          liststasks = JSON.parse(localStorage.liststore);
+      liststasks = JSON.parse(localStorage.liststore);
     }
     return liststasks;
   }
 
-
   function deletelist(event) {
     let remove = event.target.previousSibling.id;
     remove = remove.slice(-1);
-   
+
     // const liststasks = JSON.parse(localStorage.liststore);
-   const liststasks = localstorage1();
+    const liststasks = localstorage1();
     liststasks.splice(remove, 1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
     event.target.parentElement.remove();
@@ -60,59 +59,97 @@ function localstorage1() {
     }
   }
 
+  function showtasklist(selecteditem) {
+    //     const listname = document.createElement('h4');
+    //       content1.appendChild(listname);
+    //       listname.setAttribute('class', 'text-center text-dark');
+    //       listname.innerHTML = localStorage.selectedlist;
+    //       showtasklist(localStorage.getItem('selectedlist'));
 
-//   function showtasklist(selecteditem){
+    const listtasks = localstorage1();
 
-//     const listname = document.createElement('h4');
-//       content1.appendChild(listname);
-//       listname.setAttribute('class', 'text-center text-dark');
-//       listname.innerHTML = localStorage.selectedlist;
-//       showtasklist(localStorage.getItem('selectedlist'));
+    for (let i = 0; i < listtasks.length; i += 1) {
+      if (listtasks[i].list === selecteditem) {
+        const table = document.createElement('table');
+        content1.appendChild(table);
+        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+        const tablehead = document.createElement('thead'); 
+        const tableheading = document.createElement('tr');
+                   tablehead.setAttribute('class', 'text-center');
 
-// //  for(let i=0;i<listtasks.length;i+=1)
-// //           { 
-// //             const selectedlist = localStorage.getItem('selectedlist')
-           
-// //             if(listtasks[i].list === selectedlist){
-               
-// //               listtasks[i].todos.push(tasks);
-// //               localStorage.setItem('liststore', JSON.stringify(listtasks));
-// //               break;
-// //             }
-//     const listtasks = localstorage1();
+        tableheading.innerHTML = `  <th scope="column">Status</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Priority</th> 
+                    <th>Update</th>
+                    <th>Remove</th>`
+       
+                    tablehead.appendChild(tableheading);
+       table.appendChild(tablehead);
+       
+        const tablebody = document.createElement('tbody'); 
+       table.appendChild(tablebody);
+          for (let j = 0; j < listtasks[i].todos.length; j+=1) {
+          const tablerow = document.createElement('tr');
+          tablerow.setAttribute('id', `task${j}`);
+          tablerow.setAttribute('class', 'text-center');
 
-//   for(let i=0;i<listtasks.length;i+=1){
-//     if(listtasks[i].list === selecteditme){
-//       let table = document.createElement('table')
-//       content1.appendChild(table);
-      
-//       let tablerow = document.createElement('tr');
-//       table.appendChild(tablerow);
-//       tablerow.setAttribute('id',task);
-//               tablerow.innerHTML = `
-//                     <td scope="row">${i+1}</td>
-//                     <td>${books[i].book}</td>
-//                     <td>${books[i].author}</td>
-//                     <td>${books[i].pages}</td>
-//                     <td><button class="btn btn-success" id="readbook">${read}</button></td>
-//                     <td><button class="btn btn-danger" id="remove">Delete</button></td> 
-
-//                     `
-//               table.appendChild(tablerow);
-//       }
-  
-//   }
+          const td1 = document.createElement('th');
+          tablerow.appendChild(td1);
+          const checkbox = document.createElement('input');
+          td1.appendChild(checkbox);
+          checkbox.setAttribute('scope', 'row');
+          
+          checkbox.setAttribute('type', 'checkbox');
+          checkbox.setAttribute('class', 'form-check-input taskdone');
+          const varnew = listtasks[i].todos[j];
+          const td2 = document.createElement('td');
+          tablerow.appendChild(td2);
+          td2.innerHTML = varnew.task;
+          const td3 = document.createElement('td');
+          tablerow.appendChild(td3);
+          td3.innerHTML = varnew.date;
+          const td4 = document.createElement('td');
+          td4.innerHTML = varnew.priority;
+          tablerow.appendChild(td4);
+          const td5 = document.createElement('td');
+          tablerow.appendChild(td5);
+          const editbutton = document.createElement('button');
+          td5.appendChild(editbutton);
+          
+          editbutton.setAttribute('class', 'btn btn-primary');
+          editbutton.setAttribute('id', 'edittask');
+          editbutton.innerHTML = 'Edit';
+const td6 = document.createElement('td');
+          tablerow.appendChild(td6);
+          const delbutton = document.createElement('button');
+          td6.appendChild(delbutton);
+          delbutton.setAttribute('id', 'deltask');
+          delbutton.setAttribute('class', 'btn btn-danger');
+          delbutton.innerHTML = 'Delete';
+          tablebody.appendChild(tablerow);
+        }
+      }
+    }
+  }
 
   function showlistname() {
     if (localStorage.getItem('selectedlist')) {
-      if (content1.lastElementChild) {
+      // while(table.lastElementChild)
+      // {
+      //   table.removeChild(table.lastChild);
+      // }
+      // if (content1.lastElementChild) {
+      //   content1.removeChild(content1.lastChild);
+      // }
+      while (content1.lastElementChild) {
         content1.removeChild(content1.lastChild);
       }
       const listname = document.createElement('h4');
       content1.appendChild(listname);
-      listname.setAttribute('class', 'text-center text-dark');
+      listname.setAttribute('class', 'text-center text-dark mb-4');
       listname.innerHTML = localStorage.selectedlist;
-      // showtasklist(localStorage.getItem('selectedlist'));
+      showtasklist(localStorage.getItem('selectedlist'));
     }
   }
 

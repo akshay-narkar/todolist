@@ -3,20 +3,21 @@ const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
 // const listoflist1 = document.querySelectorAll('.listoflist');
 const list = document.getElementById('list');
+const readRadios = document.getElementById('readRadios1');
 
 function logic() {
-  class Createlist1{
+  class Createlist1 {
     constructor(list) {
       this.list = list;
       this.todos = [];
     }
   }
-    class Createtask1{
-      constructor(date,task,readRadios)
-      {
-        this.date = date;
-        this.task = task;
-        this.priority = readRadios;
+
+  class Createtask1 {
+    constructor(date, task, readRadios) {
+      this.date = date;
+      this.task = task;
+      this.priority = readRadios;
     }
   }
 
@@ -42,25 +43,21 @@ function logic() {
     localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
 
-
-  const createtask = () => {
+  const createtask = (e) => {
     const listtasks = localstorage1();
-    const tasks = new Createtask1(date.value,task.value,readRadios1.checked);
-    if(localStorage.getItem('selectedlist')){
-          for(let i=0;i<listtasks.length;i+=1)
-          { 
-            const selectedlist = localStorage.getItem('selectedlist')
-           
-            if(listtasks[i].list === selectedlist){
-               
-              listtasks[i].todos.push(tasks);
-              localStorage.setItem('liststore', JSON.stringify(listtasks));
-              break;
-            }
-          }
-    }
+    const tasks = new Createtask1(date.value, task.value, readRadios1.value);
 
-    else {console.log("Select a list mofo");}
+    if (localStorage.getItem('selectedlist')) {
+      for (let i = 0; i < listtasks.length; i += 1) {
+        const selectedlist = localStorage.getItem('selectedlist');
+
+        if (listtasks[i].list === selectedlist) {
+          listtasks[i].todos.push(tasks);
+          localStorage.setItem('liststore', JSON.stringify(listtasks));
+          break;
+        }
+      }
+    } else { console.log('Select a list mofo'); }
     // localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
 
@@ -78,6 +75,5 @@ function logic() {
   submitlist.addEventListener('click', createlist);
   list.value = '';
   submittask.addEventListener('click', createtask);
-
 }
 export default logic;
