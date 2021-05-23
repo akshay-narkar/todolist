@@ -31,8 +31,9 @@ export function dom() {
   refreshlist.addEventListener('click', () => {
     if (localStorage.getItem('selectedlist')) {
       localStorage.removeItem('selectedlist');
-
-      content1.removeChild(content1.lastChild);
+      while (content1.lastElementChild) {
+        content1.removeChild(content1.lastChild);
+      }
     }
   });
 
@@ -54,9 +55,32 @@ export function dom() {
     localStorage.setItem('liststore', JSON.stringify(liststasks));
     event.target.parentElement.remove();
     if (localStorage.getItem('selectedlist') === event.target.previousSibling.innerHTML.trim()) {
+      console.log(event.target.previousSibling.innerHTML.trim());
       localStorage.removeItem('selectedlist');
-      content1.removeChild(content1.lastChild);
+      while (content1.lastElementChild) {
+        content1.removeChild(content1.lastChild);
+      }
     }
+  }
+
+  function deletetask(e) {
+    const listtasks = localstorage1();
+    const selecteditem = localStorage.getItem('selectedlist');
+
+    for (let i = 0; i < listtasks.length; i += 1) {
+      if (listtasks[i].list === selecteditem) {
+        let remove = e.target.parentElement.parentElement.id;
+        remove = remove.slice(-1);
+        listtasks[i].todos.splice(remove, 1);
+        localStorage.setItem('liststore', JSON.stringify(listtasks));
+        break;
+      }
+    }
+    e.target.parentElement.parentElement.remove();
+  }
+
+  function edittask(e) {
+
   }
 
   function showtasklist(selecteditem) {
@@ -73,23 +97,23 @@ export function dom() {
         const table = document.createElement('table');
         content1.appendChild(table);
         table.setAttribute('class', 'table table-stripped text-dark container pt-5');
-        const tablehead = document.createElement('thead'); 
+        const tablehead = document.createElement('thead');
         const tableheading = document.createElement('tr');
-                   tablehead.setAttribute('class', 'text-center');
+        tablehead.setAttribute('class', 'text-center');
 
         tableheading.innerHTML = `  <th scope="column">Status</th>
                     <th>Task</th>
                     <th>Date</th>
                     <th>Priority</th> 
                     <th>Update</th>
-                    <th>Remove</th>`
-       
-                    tablehead.appendChild(tableheading);
-       table.appendChild(tablehead);
-       
-        const tablebody = document.createElement('tbody'); 
-       table.appendChild(tablebody);
-          for (let j = 0; j < listtasks[i].todos.length; j+=1) {
+                    <th>Remove</th>`;
+
+        tablehead.appendChild(tableheading);
+        table.appendChild(tablehead);
+
+        const tablebody = document.createElement('tbody');
+        table.appendChild(tablebody);
+        for (let j = 0; j < listtasks[i].todos.length; j += 1) {
           const tablerow = document.createElement('tr');
           tablerow.setAttribute('id', `task${j}`);
           tablerow.setAttribute('class', 'text-center');
@@ -99,7 +123,7 @@ export function dom() {
           const checkbox = document.createElement('input');
           td1.appendChild(checkbox);
           checkbox.setAttribute('scope', 'row');
-          
+
           checkbox.setAttribute('type', 'checkbox');
           checkbox.setAttribute('class', 'form-check-input taskdone');
           const varnew = listtasks[i].todos[j];
@@ -115,17 +139,20 @@ export function dom() {
           const td5 = document.createElement('td');
           tablerow.appendChild(td5);
           const editbutton = document.createElement('button');
+          editbutton.addEventListener('click', edittask);
+
           td5.appendChild(editbutton);
-          
-          editbutton.setAttribute('class', 'btn btn-primary');
-          editbutton.setAttribute('id', 'edittask');
+
+          editbutton.setAttribute('class', 'btn btn-primary edittask');
+          // editbutton.setAttribute('id', 'edittask');
           editbutton.innerHTML = 'Edit';
-const td6 = document.createElement('td');
+          const td6 = document.createElement('td');
           tablerow.appendChild(td6);
           const delbutton = document.createElement('button');
+          delbutton.addEventListener('click', deletetask);
           td6.appendChild(delbutton);
-          delbutton.setAttribute('id', 'deltask');
-          delbutton.setAttribute('class', 'btn btn-danger');
+          // delbutton.setAttribute('id', 'deltask');
+          delbutton.setAttribute('class', 'btn btn-danger deltask');
           delbutton.innerHTML = 'Delete';
           tablebody.appendChild(tablerow);
         }
@@ -200,28 +227,3 @@ const td6 = document.createElement('td');
 
   displaylist();
 }
-
-// export {
-//     dom,formBtn
-// };
-
-// for (let i = 1; i < lists.length; i += 1) {
-//     const link = document.createElement('a');
-//     link.setAttribute('href', '#');
-//     const tablerow = document.createElement('div');
-//     link.appendChild(tablerow);
-//     tablerow.setAttribute('id', `projectlist${i}`);
-//     tablerow.setAttribute('class','listoflist');
-//     const tablerowinside = document.createElement('h5');
-
-//     tablerowinside.setAttribute('class', 'text-center text-white m-4 ');
-//     tablerowinside.innerHTML = `
-//                    ${lists[i].list}
-//                   `;
-//     tablerowinside.appendChild(tablerow);
-//     const deletebtn = document.createElement('button');
-//     deletebtn.setAttribute('class','deletelist btn btn-small btn-danger');
-//     deletebtn.innerHTML = 'Delete';
-//     deletebtn.appendChild(tablerow);
-//   }
-// }
