@@ -3,7 +3,7 @@ const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
 // const listoflist1 = document.querySelectorAll('.listoflist');
 const list = document.getElementById('list');
-const readRadios = document.getElementById('readRadios1');
+const readRadios1 = document.getElementById('readRadios1');
 
 function logic() {
   class Createlist1 {
@@ -13,13 +13,11 @@ function logic() {
     }
   }
 
-  class Createtask1 {
-    constructor(date, task, readRadios) {
-      this.date = date;
-      this.task = task;
-      this.priority = readRadios;
-    }
-  }
+  const Createtask1 = (date, task, readRadios) => {
+    this.date = date;
+    this.task = task;
+    this.priority = readRadios;
+  };
 
   let liststasks = [];
 
