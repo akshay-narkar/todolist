@@ -8,10 +8,13 @@ export const refreshlist = document.querySelector('#refresh-btn');
 export const listoflist1 = document.querySelectorAll('.listoflist');
 export const content1 = document.getElementById('currentclassname');
 export const defaultlisthome = document.getElementById('defaultlist');
+export const defaulttomhome = document.getElementById('tommorrowlist');
+export const defaulttodayhome = document.getElementById('todaylist');
 export const readRadios1edit = document.querySelectorAll('.radiobtnedit')
 export const taskedit = document.getElementById('taskedit');
 export const dateedit = document.getElementById('dateedit');
 const editingform = document.getElementById('editingform');
+import { compareAsc, format } from 'date-fns'
 
 // export const submitlist = document.querySelector('#submitlist')
 // export const submittask = document.querySelector('#submittask')
@@ -149,37 +152,8 @@ export function dom() {
     }
     }
 
-  function showtasklist(selecteditem) {
-    //     const listname = document.createElement('h4');
-    //       content1.appendChild(listname);
-    //       listname.setAttribute('class', 'text-center text-dark');
-    //       listname.innerHTML = localStorage.selectedlist;
-    //       showtasklist(localStorage.getItem('selectedlist'));
-
-    const listtasks = localstorage1();
-
-    for (let i = 0; i < listtasks.length; i += 1) {
-      if (listtasks[i].list === selecteditem) {
-        const table = document.createElement('table');
-        content1.appendChild(table);
-        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
-        const tablehead = document.createElement('thead');
-        const tableheading = document.createElement('tr');
-        tablehead.setAttribute('class', 'text-center');
-
-        tableheading.innerHTML = `  <th scope="column">Status</th>
-                    <th>Task</th>
-                    <th>Date</th>
-                    <th>Priority</th> 
-                    <th>Update</th>
-                    <th>Remove</th>`;
-
-        tablehead.appendChild(tableheading);
-        table.appendChild(tablehead);
-
-        const tablebody = document.createElement('tbody');
-        table.appendChild(tablebody);
-        for (let j = 0; j < listtasks[i].todos.length; j += 1) {
+    function showalltasks(listtasks,i,j,tablebody){
+         
           const tablerow = document.createElement('tr');
           tablerow.setAttribute('id', `task${j}`);
           tablerow.setAttribute('class', 'text-center');
@@ -223,6 +197,42 @@ export function dom() {
           delbutton.innerHTML = 'Delete';
           tablebody.appendChild(tablerow);
         }
+    
+
+  function showtasklist(selecteditem) {
+    //     const listname = document.createElement('h4');
+    //       content1.appendChild(listname);
+    //       listname.setAttribute('class', 'text-center text-dark');
+    //       listname.innerHTML = localStorage.selectedlist;
+    //       showtasklist(localStorage.getItem('selectedlist'));
+  formBtn.classList.remove('d-none')
+
+    const listtasks = localstorage1();
+
+    for (let i = 0; i < listtasks.length; i += 1) {
+      if (listtasks[i].list === selecteditem) {
+        const table = document.createElement('table');
+        content1.appendChild(table);
+        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+        const tablehead = document.createElement('thead');
+        const tableheading = document.createElement('tr');
+        tablehead.setAttribute('class', 'text-center');
+
+        tableheading.innerHTML = `  <th scope="column">Status</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Priority</th> 
+                    <th>Update</th>
+                    <th>Remove</th>`;
+
+        tablehead.appendChild(tableheading);
+        table.appendChild(tablehead);
+
+        const tablebody = document.createElement('tbody');
+        table.appendChild(tablebody);
+        for (let j = 0; j < listtasks[i].todos.length; j += 1) {
+        showalltasks(listtasks,i,j,tablebody)
+        }
       }
     }
   }
@@ -253,6 +263,53 @@ export function dom() {
     showlistname();
   }
 
+  function todaytomolist(name){
+
+    const listtasks = localstorage1();
+     for (let i = 0; i < listtasks.length; i += 1) {
+        const table = document.createElement('table');
+        content1.appendChild(table);
+        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+        const tablehead = document.createElement('thead');
+        const tableheading = document.createElement('tr');
+        tablehead.setAttribute('class', 'text-center');
+
+        tableheading.innerHTML = `  <th scope="column">Status</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Priority</th> 
+                    <th>Update</th>
+                    <th>Remove</th>`;
+
+        tablehead.appendChild(tableheading);
+        table.appendChild(tablehead);
+
+        const tablebody = document.createElement('tbody');
+        table.appendChild(tablebody); 
+         for (let j = 0; j < listtasks[i].todos.length; j += 1) {
+            if (name==='Tomorrow' && listtasks[i].todos[j].date) 
+              showalltasks(listtasks,i,j,tablebody)
+         }
+    }
+  }
+
+function tomtodaydefaultlist(e) {
+  
+  // console.log(formBtn);
+  formBtn.classList.add('d-none')
+      
+   while (content1.lastElementChild) {
+        content1.removeChild(content1.lastChild);
+      }
+      const listname = document.createElement('h4');
+      content1.appendChild(listname);
+      listname.setAttribute('class', 'text-center text-dark mb-4');
+      listname.innerHTML = e.target.textContent.trim();
+      localStorage.removeItem('selectedlist');
+      let name = e.target.textContent.trim();
+      // localStorage.setItem('todayortomorrow', name);
+      todaytomolist(name);
+}
  
 
   function displaylist() {
@@ -291,6 +348,9 @@ export function dom() {
   }
 
   defaultlisthome.addEventListener('click', addtolist);
+  defaulttodayhome.addEventListener('click', tomtodaydefaultlist);
+  defaulttomhome.addEventListener('click', tomtodaydefaultlist);
+
 
   showlistname();
 
