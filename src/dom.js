@@ -115,12 +115,39 @@ export function dom() {
   }
 
   function checkboxtask(e){
+    let listtasks = localstorage1();
+    let currentcheckedtaskclass = e.target.parentElement.parentElement;
+    // localStorage.setItem('checkedtask', currentcheckedtask);
+    let remove = currentcheckedtaskclass.id.slice(-1);
+    const selecteditem = localStorage.getItem('selectedlist');
 
-    if(e.target.checked)
-        console.log("checked")
-        else
-        console.log("unchecked");    
-  }
+    if(e.target.checked){
+        // localStorage.setItem('checkedtask', currentcheckedtask);
+        currentcheckedtaskclass.classList.add('strikethrough');
+        for (let i = 0; i < listtasks.length; i += 1) {
+            if (listtasks[i].list === selecteditem) {
+              console.log(listtasks[i].list)
+              listtasks[i].todos[remove].status = true
+              console.log(listtasks[i].todos[remove].status)
+              localStorage.setItem('liststore', JSON.stringify(listtasks));
+              break;
+      }
+    }
+    }
+        else{
+        // localStorage.removeItem('checkedtask');
+        currentcheckedtaskclass.classList.remove('strikethrough');
+          for (let i = 0; i < listtasks.length; i += 1) {
+              if (listtasks[i].list === selecteditem) {
+                console.log(listtasks[i].list)
+                listtasks[i].todos[remove].status = false
+                localStorage.setItem('liststore', JSON.stringify(listtasks));
+                console.log(listtasks[i].todos[remove].status)
+                break;
+      }      
+     } 
+    }
+    }
 
   function showtasklist(selecteditem) {
     //     const listname = document.createElement('h4');
@@ -156,17 +183,17 @@ export function dom() {
           const tablerow = document.createElement('tr');
           tablerow.setAttribute('id', `task${j}`);
           tablerow.setAttribute('class', 'text-center');
-
+          const varnew = listtasks[i].todos[j];
           const td1 = document.createElement('th');
           tablerow.appendChild(td1);
           const checkbox = document.createElement('input');
           checkbox.addEventListener('click',checkboxtask);
           td1.appendChild(checkbox);
           checkbox.setAttribute('scope', 'row');
-
           checkbox.setAttribute('type', 'checkbox');
           checkbox.setAttribute('class', 'form-check-input taskdone');
-          const varnew = listtasks[i].todos[j];
+          if(varnew.status )
+          { checkbox.checked = true}
           const td2 = document.createElement('td');
           tablerow.appendChild(td2);
           td2.innerHTML = varnew.task;
