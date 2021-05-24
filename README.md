@@ -1,35 +1,46 @@
-![](https://img.shields.io/badge/Microverse-blueviolet)
+# Todo-Collab
 
-# Book Library
+Creating a To Do list in using Javascript to create and maintain list of tasks for better time management
 
-This a project to create a webapp that acts as a personal library to save books you have read or to create a list of books to read.
+## Todolist screenshot
 
-## Library screenshot
+<img src="/src/screenshot.png" width="65%"/>
 
-<img src="Screenshot.png" width="65%"/>
+In this project we build a To Do list app with vanilla javascript & webpack where you can:
 
-In this project we build a simple library app with vanilla javascript where you can:
-
-- Add books
-- Remove Books
-- Mark added books as read
+- Create new lists
+- Add Tasks
+- Edit tasks
 
 ## Built With
 
 - JavaScript
 - HTML
 - CSS
+- Bootstrap
+- Webpack
 
 ## Getting Started
 
 To set up a local copy of the project
 
-- `git clone git@github.com:akshay-narkar/Library-App.git`
-- `cd Library-App`
+- `git clone git@github.com:akshay-narkar/todolist.git`
+- `cd todolist`
+- `git pull origin feature`
+
+If you want to repack the file
+
+- Run `npm install` on the terminal to install dependancies
+- Run `npx webpack` to bundle the files in the src folder & product ouput in dist folder
+- Run `npm run start` to check live server
+
+  or
+
+- Go to the dist folder and open index.html
 
 ## Live Link of the project
 
-<!-- [Live-Library](https://raw.githack.com/akshay-narkar/Library-App/logic-interface/index.html) -->
+[Live-List]()
 
 ## Author
 
