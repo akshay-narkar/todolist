@@ -1,7 +1,5 @@
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'jquery';
-import '@popperjs/core';
+
+
 import './stylesheet.css';
 import * as dom1 from './dom';
 import logic from './logic';
