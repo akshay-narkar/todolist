@@ -3,9 +3,11 @@ const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
 // const listoflist1 = document.querySelectorAll('.listoflist');
 const list = document.getElementById('list');
-const readRadios1 = document.getElementById('readRadios1');
+const readRadios1 = document.querySelectorAll('.radiobtn');
+const edittask = document.querySelector('#edittask');
 
-function logic() {
+
+function logic(dom1) {
   class Createlist1 {
     constructor(list) {
       this.list = list;
@@ -13,11 +15,12 @@ function logic() {
     }
   }
 
-  const Createtask1 = (date, task, readRadios) => {
+  function Createtask1(date,task,readradiovalue1,status) {
     this.date = date;
     this.task = task;
-    this.priority = readRadios;
-  };
+    this.priority = readradiovalue1;
+    this.status = status;
+  }
 
   let liststasks = [];
 
@@ -41,11 +44,52 @@ function logic() {
     localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
 
+
+  const edittaskform = (e) => {
+      const listtasks = localstorage1();
+
+      if (localStorage.getItem('selectedlist')) {
+        let readradiovalue2;
+        for(let i=0;i<3;i+=1) {
+          if(dom1.readRadios1edit[i].checked === true)
+          {
+            readradiovalue2 = dom1.readRadios1edit[i].value;
+            break;
+          }
+        }
+
+      const selecteditem = localStorage.getItem('selectedlist');
+
+    for (let i = 0; i < listtasks.length; i += 1) {
+      if (listtasks[i].list === selecteditem) {
+        let remove = localStorage.getItem('selectedtask');
+        listtasks[i].todos[remove].task = dom1.taskedit.value;
+        listtasks[i].todos[remove].date = dom1.dateedit.value;
+        listtasks[i].todos[remove].priority = readradiovalue2;
+        localStorage.setItem('liststore', JSON.stringify(listtasks));
+        break;
+      }
+    }
+    dom1.dom()
+    }    
+  }
+
   const createtask = (e) => {
     const listtasks = localstorage1();
-    const tasks = new Createtask1(date.value, task.value, readRadios1.value);
 
     if (localStorage.getItem('selectedlist')) {
+      let readradiovalue1;
+        for(let i=0;i<3;i+=1) {
+          if(readRadios1[i].checked === true)
+          {
+            readradiovalue1 = readRadios1[i].value;
+            break;
+          }
+        }
+
+      //  console.log(readRadios1.checked.value) 
+      const tasks = new Createtask1(date.value,task.value,readradiovalue1,false);
+       
       for (let i = 0; i < listtasks.length; i += 1) {
         const selectedlist = localStorage.getItem('selectedlist');
 
@@ -55,23 +99,13 @@ function logic() {
           break;
         }
       }
-    } else { console.log('Select a list mofo'); }
+    } else { alert("Please select a list") }
     // localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
 
-  // function addtolist () {
-
-  // let liststasks = localstorage1()
-  //     // let list = liststasks.push(x,y,z)
-  //  let tasks = ['x',1,'High',888];
-  //     // let book1 = new Createbook(book.value, author.value, pages.value, readRadios1.checked);
-  //   liststasks.push(tasks);
-  //   localStorage.setItem("liststore", JSON.stringify(liststasks));
-  // }
-
-  // submittask.addEventListener('click',addtotask)
   submitlist.addEventListener('click', createlist);
   list.value = '';
   submittask.addEventListener('click', createtask);
+  edittask.addEventListener('click',edittaskform);
 }
 export default logic;
