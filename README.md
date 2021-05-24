@@ -40,7 +40,7 @@ If you want to repack the file
 
 ## Live Link of the project
 
-[Live-List]()
+[Live-List](https://cocky-booth-512e85.netlify.app/)
 
 ## Author
 
