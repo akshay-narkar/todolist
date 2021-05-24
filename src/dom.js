@@ -10,40 +10,34 @@ export const content1 = document.getElementById('currentclassname');
 export const defaultlisthome = document.getElementById('defaultlist');
 export const defaulttomhome = document.getElementById('tommorrowlist');
 export const defaulttodayhome = document.getElementById('todaylist');
-export const readRadios1edit = document.querySelectorAll('.radiobtnedit')
+export const readRadios1edit = document.querySelectorAll('.radiobtnedit');
 export const taskedit = document.getElementById('taskedit');
 export const dateedit = document.getElementById('dateedit');
 const editingform = document.getElementById('editingform');
-import { compareAsc, format } from 'date-fns'
 
 // export const submitlist = document.querySelector('#submitlist')
 // export const submittask = document.querySelector('#submittask')
 
 export function dom() {
   formBtn.addEventListener('click', () => {
-    if(localStorage.getItem('selectedlist')){
-
-    if (showForm.classList.contains('d-none')) {
-      showForm.classList.remove('d-none');
+    if (localStorage.getItem('selectedlist')) {
+      if (showForm.classList.contains('d-none')) {
+        showForm.classList.remove('d-none');
+      } else {
+        showForm.classList.add('d-none');
+      }
     } else {
-      showForm.classList.add('d-none');
-    }
-  }
-   else{
-      alert("Please select a list to create the task");
+      alert('Please select a list to create the task');
     }
   });
 
   taskbtn.addEventListener('click', () => {
-   
-  
     if (showlist.classList.contains('d-none')) {
       showlist.classList.remove('d-none');
     } else {
       showlist.classList.add('d-none');
-    }}
- 
-  );
+    }
+  });
 
   refreshlist.addEventListener('click', () => {
     if (localStorage.getItem('selectedlist')) {
@@ -96,108 +90,98 @@ export function dom() {
   }
 
   function edittask(e) {
-
-   if(editingform.classList.contains('d-none')){ 
-    let currenttaskname = e.target.parentElement.parentElement.id.slice(-1);
-    localStorage.setItem('selectedtask', currenttaskname);
-    editingform.classList.remove('d-none');
-    for(let i=0;i<3;i+=1)
-      if(readRadios1edit[i].value === e.target.parentElement.previousSibling.innerHTML)
-      {
-         readRadios1edit[i].checked = true;
-         break;
+    if (editingform.classList.contains('d-none')) {
+      const currenttaskname = e.target.parentElement.parentElement.id.slice(-1);
+      localStorage.setItem('selectedtask', currenttaskname);
+      editingform.classList.remove('d-none');
+      for (let i = 0; i < 3; i += 1) {
+        if (readRadios1edit[i].value === e.target.parentElement.previousSibling.innerHTML) {
+          readRadios1edit[i].checked = true;
+          break;
+        }
       }
-    taskedit.value = e.target.parentElement.previousSibling.previousSibling.previousSibling.innerHTML;
-    dateedit.value = e.target.parentElement.previousSibling.previousSibling.innerHTML;
-   }
-   else{
-     editingform.classList.add('d-none');
-    localStorage.removeItem('selectedtask');
-
-   }
+      taskedit.value = e.target.parentElement.previousSibling.previousSibling.previousSibling
+        .innerHTML;
+      dateedit.value = e.target.parentElement.previousSibling.previousSibling.innerHTML;
+    } else {
+      editingform.classList.add('d-none');
+      localStorage.removeItem('selectedtask');
+    }
   }
 
-  function checkboxtask(e){
-    let listtasks = localstorage1();
-    let currentcheckedtaskclass = e.target.parentElement.parentElement;
+  function checkboxtask(e) {
+    const listtasks = localstorage1();
+    const currentcheckedtaskclass = e.target.parentElement.parentElement;
     // localStorage.setItem('checkedtask', currentcheckedtask);
-    let remove = currentcheckedtaskclass.id.slice(-1);
+    const remove = currentcheckedtaskclass.id.slice(-1);
     const selecteditem = localStorage.getItem('selectedlist');
 
-    if(e.target.checked){
-        // localStorage.setItem('checkedtask', currentcheckedtask);
-        currentcheckedtaskclass.classList.add('strikethrough');
-        for (let i = 0; i < listtasks.length; i += 1) {
-            if (listtasks[i].list === selecteditem) {
-              console.log(listtasks[i].list)
-              listtasks[i].todos[remove].status = true
-              console.log(listtasks[i].todos[remove].status)
-              localStorage.setItem('liststore', JSON.stringify(listtasks));
-              break;
+    if (e.target.checked) {
+      // localStorage.setItem('checkedtask', currentcheckedtask);
+      currentcheckedtaskclass.classList.add('strikethrough');
+      for (let i = 0; i < listtasks.length; i += 1) {
+        if (listtasks[i].list === selecteditem) {
+          listtasks[i].todos[remove].status = true;
+          localStorage.setItem('liststore', JSON.stringify(listtasks));
+          break;
+        }
+      }
+    } else {
+      // localStorage.removeItem('checkedtask');
+      currentcheckedtaskclass.classList.remove('strikethrough');
+      for (let i = 0; i < listtasks.length; i += 1) {
+        if (listtasks[i].list === selecteditem) {
+          listtasks[i].todos[remove].status = false;
+          localStorage.setItem('liststore', JSON.stringify(listtasks));
+          break;
+        }
       }
     }
-    }
-        else{
-        // localStorage.removeItem('checkedtask');
-        currentcheckedtaskclass.classList.remove('strikethrough');
-          for (let i = 0; i < listtasks.length; i += 1) {
-              if (listtasks[i].list === selecteditem) {
-                console.log(listtasks[i].list)
-                listtasks[i].todos[remove].status = false
-                localStorage.setItem('liststore', JSON.stringify(listtasks));
-                console.log(listtasks[i].todos[remove].status)
-                break;
-      }      
-     } 
-    }
-    }
+  }
 
-    function showalltasks(listtasks,i,j,tablebody){
-         
-          const tablerow = document.createElement('tr');
-          tablerow.setAttribute('id', `task${j}`);
-          tablerow.setAttribute('class', 'text-center');
-          const varnew = listtasks[i].todos[j];
-          const td1 = document.createElement('th');
-          tablerow.appendChild(td1);
-          const checkbox = document.createElement('input');
-          checkbox.addEventListener('click',checkboxtask);
-          td1.appendChild(checkbox);
-          checkbox.setAttribute('scope', 'row');
-          checkbox.setAttribute('type', 'checkbox');
-          checkbox.setAttribute('class', 'form-check-input taskdone');
-          if(varnew.status )
-          { checkbox.checked = true}
-          const td2 = document.createElement('td');
-          tablerow.appendChild(td2);
-          td2.innerHTML = varnew.task;
-          const td3 = document.createElement('td');
-          tablerow.appendChild(td3);
-          td3.innerHTML = varnew.date;
-          const td4 = document.createElement('td');
-          td4.innerHTML = varnew.priority;
-          tablerow.appendChild(td4);
-          const td5 = document.createElement('td');
-          tablerow.appendChild(td5);
-          const editbutton = document.createElement('button');
-          editbutton.addEventListener('click', edittask);
+  function showalltasks(listtasks, i, j, tablebody) {
+    const tablerow = document.createElement('tr');
+    tablerow.setAttribute('id', `task${j}`);
+    tablerow.setAttribute('class', 'text-center');
+    const varnew = listtasks[i].todos[j];
+    const td1 = document.createElement('th');
+    tablerow.appendChild(td1);
+    const checkbox = document.createElement('input');
+    checkbox.addEventListener('click', checkboxtask);
+    td1.appendChild(checkbox);
+    checkbox.setAttribute('scope', 'row');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('class', 'form-check-input taskdone');
+    if (varnew.status) { checkbox.checked = true; }
+    const td2 = document.createElement('td');
+    tablerow.appendChild(td2);
+    td2.innerHTML = varnew.task;
+    const td3 = document.createElement('td');
+    tablerow.appendChild(td3);
+    td3.innerHTML = varnew.date;
+    const td4 = document.createElement('td');
+    td4.innerHTML = varnew.priority;
+    tablerow.appendChild(td4);
+    const td5 = document.createElement('td');
+    tablerow.appendChild(td5);
+    const editbutton = document.createElement('button');
+    editbutton.addEventListener('click', edittask);
 
-          td5.appendChild(editbutton);
+    td5.appendChild(editbutton);
 
-          editbutton.setAttribute('class', 'btn btn-primary edittask');
-          // editbutton.setAttribute('id', 'edittask');
-          editbutton.innerHTML = 'Edit';
-          const td6 = document.createElement('td');
-          tablerow.appendChild(td6);
-          const delbutton = document.createElement('button');
-          delbutton.addEventListener('click', deletetask);
-          td6.appendChild(delbutton);
-          // delbutton.setAttribute('id', 'deltask');
-          delbutton.setAttribute('class', 'btn btn-danger deltask');
-          delbutton.innerHTML = 'Delete';
-          tablebody.appendChild(tablerow);
-        }
-    
+    editbutton.setAttribute('class', 'btn btn-primary edittask');
+    // editbutton.setAttribute('id', 'edittask');
+    editbutton.innerHTML = 'Edit';
+    const td6 = document.createElement('td');
+    tablerow.appendChild(td6);
+    const delbutton = document.createElement('button');
+    delbutton.addEventListener('click', deletetask);
+    td6.appendChild(delbutton);
+    // delbutton.setAttribute('id', 'deltask');
+    delbutton.setAttribute('class', 'btn btn-danger deltask');
+    delbutton.innerHTML = 'Delete';
+    tablebody.appendChild(tablerow);
+  }
 
   function showtasklist(selecteditem) {
     //     const listname = document.createElement('h4');
@@ -205,7 +189,7 @@ export function dom() {
     //       listname.setAttribute('class', 'text-center text-dark');
     //       listname.innerHTML = localStorage.selectedlist;
     //       showtasklist(localStorage.getItem('selectedlist'));
-  formBtn.classList.remove('d-none')
+    formBtn.classList.remove('d-none');
 
     const listtasks = localstorage1();
 
@@ -231,7 +215,7 @@ export function dom() {
         const tablebody = document.createElement('tbody');
         table.appendChild(tablebody);
         for (let j = 0; j < listtasks[i].todos.length; j += 1) {
-        showalltasks(listtasks,i,j,tablebody)
+          showalltasks(listtasks, i, j, tablebody);
         }
       }
     }
@@ -263,54 +247,59 @@ export function dom() {
     showlistname();
   }
 
-  function todaytomolist(name){
-
+  function todaytomolist(name) {
     const listtasks = localstorage1();
-     for (let i = 0; i < listtasks.length; i += 1) {
-        const table = document.createElement('table');
-        content1.appendChild(table);
-        table.setAttribute('class', 'table table-stripped text-dark container pt-5');
-        const tablehead = document.createElement('thead');
-        const tableheading = document.createElement('tr');
-        tablehead.setAttribute('class', 'text-center');
+    for (let i = 0; i < listtasks.length; i += 1) {
+      const table = document.createElement('table');
+      content1.appendChild(table);
+      table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+      const tablehead = document.createElement('thead');
+      const tableheading = document.createElement('tr');
+      tablehead.setAttribute('class', 'text-center');
 
-        tableheading.innerHTML = `  <th scope="column">Status</th>
+      tableheading.innerHTML = `  <th scope="column">Status</th>
                     <th>Task</th>
                     <th>Date</th>
                     <th>Priority</th> 
                     <th>Update</th>
                     <th>Remove</th>`;
 
-        tablehead.appendChild(tableheading);
-        table.appendChild(tablehead);
+      tablehead.appendChild(tableheading);
+      table.appendChild(tablehead);
 
-        const tablebody = document.createElement('tbody');
-        table.appendChild(tablebody); 
-         for (let j = 0; j < listtasks[i].todos.length; j += 1) {
-            if (name==='Tomorrow' && listtasks[i].todos[j].date) 
-              showalltasks(listtasks,i,j,tablebody)
-         }
+      const tablebody = document.createElement('tbody');
+      table.appendChild(tablebody);
+      for (let j = 0; j < listtasks[i].todos.length; j += 1) {
+        const varnew = listtasks[i].todos[j].date;
+        const { status } = listtasks[i].todos[j];
+        const date1 = new Date(varnew);
+        const date2 = new Date();
+        const finaldate = Math.round((date2 - date1) / (1000 * 3600 * 24));
+        if (name === 'Tomorrow' && finaldate === 1 && status === false) {
+          showalltasks(listtasks, i, j, tablebody);
+        } else if (name === 'Today' && finaldate === 0 && status === false) {
+          showalltasks(listtasks, i, j, tablebody);
+        }
+      }
     }
   }
 
-function tomtodaydefaultlist(e) {
-  
+  function tomtodaydefaultlist(e) {
   // console.log(formBtn);
-  formBtn.classList.add('d-none')
-      
-   while (content1.lastElementChild) {
-        content1.removeChild(content1.lastChild);
-      }
-      const listname = document.createElement('h4');
-      content1.appendChild(listname);
-      listname.setAttribute('class', 'text-center text-dark mb-4');
-      listname.innerHTML = e.target.textContent.trim();
-      localStorage.removeItem('selectedlist');
-      let name = e.target.textContent.trim();
-      // localStorage.setItem('todayortomorrow', name);
-      todaytomolist(name);
-}
- 
+    formBtn.classList.add('d-none');
+
+    while (content1.lastElementChild) {
+      content1.removeChild(content1.lastChild);
+    }
+    const listname = document.createElement('h4');
+    content1.appendChild(listname);
+    listname.setAttribute('class', 'text-center text-dark mb-4');
+    listname.innerHTML = e.target.textContent.trim();
+    localStorage.removeItem('selectedlist');
+    const name = e.target.textContent.trim();
+    // localStorage.setItem('todayortomorrow', name);
+    todaytomolist(name);
+  }
 
   function displaylist() {
     if (localStorage.getItem('liststore')) {
@@ -350,7 +339,6 @@ function tomtodaydefaultlist(e) {
   defaultlisthome.addEventListener('click', addtolist);
   defaulttodayhome.addEventListener('click', tomtodaydefaultlist);
   defaulttomhome.addEventListener('click', tomtodaydefaultlist);
-
 
   showlistname();
 
