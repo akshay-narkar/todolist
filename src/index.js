@@ -1,5 +1,3 @@
-
-
 import './stylesheet.css';
 import * as dom1 from './dom';
 import logic from './logic';
