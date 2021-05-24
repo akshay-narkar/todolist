@@ -8,25 +8,39 @@ export const refreshlist = document.querySelector('#refresh-btn');
 export const listoflist1 = document.querySelectorAll('.listoflist');
 export const content1 = document.getElementById('currentclassname');
 export const defaultlisthome = document.getElementById('defaultlist');
+export const readRadios1edit = document.querySelectorAll('.radiobtnedit')
+export const taskedit = document.getElementById('taskedit');
+export const dateedit = document.getElementById('dateedit');
+const editingform = document.getElementById('editingform');
+
 // export const submitlist = document.querySelector('#submitlist')
 // export const submittask = document.querySelector('#submittask')
 
 export function dom() {
   formBtn.addEventListener('click', () => {
+    if(localStorage.getItem('selectedlist')){
+
     if (showForm.classList.contains('d-none')) {
       showForm.classList.remove('d-none');
     } else {
       showForm.classList.add('d-none');
     }
+  }
+   else{
+      alert("Please select a list to create the task");
+    }
   });
 
   taskbtn.addEventListener('click', () => {
+   
+  
     if (showlist.classList.contains('d-none')) {
       showlist.classList.remove('d-none');
     } else {
       showlist.classList.add('d-none');
-    }
-  });
+    }}
+ 
+  );
 
   refreshlist.addEventListener('click', () => {
     if (localStorage.getItem('selectedlist')) {
@@ -55,7 +69,6 @@ export function dom() {
     localStorage.setItem('liststore', JSON.stringify(liststasks));
     event.target.parentElement.remove();
     if (localStorage.getItem('selectedlist') === event.target.previousSibling.innerHTML.trim()) {
-      console.log(event.target.previousSibling.innerHTML.trim());
       localStorage.removeItem('selectedlist');
       while (content1.lastElementChild) {
         content1.removeChild(content1.lastChild);
@@ -81,6 +94,32 @@ export function dom() {
 
   function edittask(e) {
 
+   if(editingform.classList.contains('d-none')){ 
+    let currenttaskname = e.target.parentElement.parentElement.id.slice(-1);
+    localStorage.setItem('selectedtask', currenttaskname);
+    editingform.classList.remove('d-none');
+    for(let i=0;i<3;i+=1)
+      if(readRadios1edit[i].value === e.target.parentElement.previousSibling.innerHTML)
+      {
+         readRadios1edit[i].checked = true;
+         break;
+      }
+    taskedit.value = e.target.parentElement.previousSibling.previousSibling.previousSibling.innerHTML;
+    dateedit.value = e.target.parentElement.previousSibling.previousSibling.innerHTML;
+   }
+   else{
+     editingform.classList.add('d-none');
+    localStorage.removeItem('selectedtask');
+
+   }
+  }
+
+  function checkboxtask(e){
+
+    if(e.target.checked)
+        console.log("checked")
+        else
+        console.log("unchecked");    
   }
 
   function showtasklist(selecteditem) {
@@ -121,6 +160,7 @@ export function dom() {
           const td1 = document.createElement('th');
           tablerow.appendChild(td1);
           const checkbox = document.createElement('input');
+          checkbox.addEventListener('click',checkboxtask);
           td1.appendChild(checkbox);
           checkbox.setAttribute('scope', 'row');
 
@@ -185,6 +225,8 @@ export function dom() {
     localStorage.setItem('selectedlist', currentList);
     showlistname();
   }
+
+ 
 
   function displaylist() {
     if (localStorage.getItem('liststore')) {
