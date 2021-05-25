@@ -139,12 +139,13 @@ export function dom() {
     }
   }
 
-  function showalltasks(listtasks, i, j, tablebody) {
+  function showalltasks(listtasks, i, j, tablebody,name=1) {
     const tablerow = document.createElement('tr');
     tablerow.setAttribute('id', `task${j}`);
     tablerow.setAttribute('class', 'text-center');
     const varnew = listtasks[i].todos[j];
     const td1 = document.createElement('th');
+     if(name===1){
     tablerow.appendChild(td1);
     const checkbox = document.createElement('input');
     checkbox.addEventListener('click', checkboxtask);
@@ -153,6 +154,7 @@ export function dom() {
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('class', 'form-check-input taskdone');
     if (varnew.status) { checkbox.checked = true; }
+     }
     const td2 = document.createElement('td');
     tablerow.appendChild(td2);
     td2.innerHTML = varnew.task;
@@ -162,6 +164,7 @@ export function dom() {
     const td4 = document.createElement('td');
     td4.innerHTML = varnew.priority;
     tablerow.appendChild(td4);
+    if(name===1){
     const td5 = document.createElement('td');
     tablerow.appendChild(td5);
     const editbutton = document.createElement('button');
@@ -180,7 +183,8 @@ export function dom() {
     // delbutton.setAttribute('id', 'deltask');
     delbutton.setAttribute('class', 'btn btn-danger deltask');
     delbutton.innerHTML = 'Delete';
-    tablebody.appendChild(tablerow);
+     } 
+     tablebody.appendChild(tablerow);
   }
 
   function showtasklist(selecteditem) {
@@ -257,12 +261,10 @@ export function dom() {
       const tableheading = document.createElement('tr');
       tablehead.setAttribute('class', 'text-center');
 
-      tableheading.innerHTML = `  <th scope="column">Status</th>
-                    <th>Task</th>
+      tableheading.innerHTML = `  <th scope="column">Task</th>
                     <th>Date</th>
                     <th>Priority</th> 
-                    <th>Update</th>
-                    <th>Remove</th>`;
+            `
 
       tablehead.appendChild(tableheading);
       table.appendChild(tablehead);
@@ -275,10 +277,12 @@ export function dom() {
         const date1 = new Date(varnew);
         const date2 = new Date();
         const finaldate = Math.round((date2 - date1) / (1000 * 3600 * 24));
-        if (name === 'Tomorrow' && finaldate === 1 && status === false) {
-          showalltasks(listtasks, i, j, tablebody);
+         console.log(name,finaldate)
+          console.log("Otmasd")
+        if (name === 'Tomorrow' && finaldate === -1 && status === false) {
+          showalltasks(listtasks, i, j, tablebody,name);
         } else if (name === 'Today' && finaldate === 0 && status === false) {
-          showalltasks(listtasks, i, j, tablebody);
+          showalltasks(listtasks, i, j, tablebody,name);
         }
       }
     }
