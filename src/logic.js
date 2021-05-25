@@ -38,7 +38,7 @@ function logic(dom1) {
     return liststasks;
   }
 
-  const createlist = () => {
+  const createlist = (e) => {
     const liststasks = localstorage1();
     const list1 = new Createlist1(list.value);
     liststasks.push(list1);
@@ -47,7 +47,7 @@ function logic(dom1) {
     window.location.reload();
   };
 
-  const edittaskform = () => {
+  const edittaskform = (e) => {
     const listtasks = localstorage1();
 
     if (localStorage.getItem('selectedlist')) {
@@ -77,7 +77,7 @@ function logic(dom1) {
     window.location.reload();
   };
 
-  const createtask = () => {
+  const createtask = (e) => {
     const listtasks = localstorage1();
 
     if (localStorage.getItem('selectedlist')) {
@@ -103,7 +103,7 @@ function logic(dom1) {
       }
 
       e.preventDefault();
-      location.reload();
+      window.location.reload();
     } else { alert('Please select a list'); }
     // localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
