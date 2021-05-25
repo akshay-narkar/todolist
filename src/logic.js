@@ -43,6 +43,8 @@ function logic(dom1) {
     const list1 = new Createlist1(list.value);
     liststasks.push(list1);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
+    e.preventDefault();
+    window.location.reload();
   };
 
   const edittaskform = () => {
@@ -71,6 +73,8 @@ function logic(dom1) {
       }
       dom1.dom();
     }
+    e.preventDefault();
+    window.location.reload();
   };
 
   const createtask = () => {
@@ -97,6 +101,9 @@ function logic(dom1) {
           break;
         }
       }
+
+      e.preventDefault();
+      location.reload();
     } else { alert('Please select a list'); }
     // localStorage.setItem('liststore', JSON.stringify(liststasks));
   };
