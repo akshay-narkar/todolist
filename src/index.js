@@ -1,4 +1,4 @@
-import './stylesheet.css';
+import './stylesheet.scss';
 import * as dom1 from './dom';
 import logic from './logic';
 // import * as dom2 from './dom2';
