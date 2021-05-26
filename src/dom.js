@@ -253,24 +253,23 @@ export function dom() {
 
   function todaytomolist(name) {
     const listtasks = localstorage1();
-    for (let i = 0; i < listtasks.length; i += 1) {
-      const table = document.createElement('table');
-      content1.appendChild(table);
-      table.setAttribute('class', 'table table-stripped text-dark container pt-5');
-      const tablehead = document.createElement('thead');
-      const tableheading = document.createElement('tr');
-      tablehead.setAttribute('class', 'text-center');
+    const table = document.createElement('table');
+    content1.appendChild(table);
+    table.setAttribute('class', 'table table-stripped text-dark container pt-5');
+    const tablehead = document.createElement('thead');
+    table.appendChild(tablehead);
 
-      tableheading.innerHTML = `  <th scope="column">Task</th>
+    const tableheading = document.createElement('tr');
+    tablehead.setAttribute('class', 'text-center');
+    tablehead.appendChild(tableheading);
+    tableheading.innerHTML = `  <th scope="column">Task</th>
                     <th>Date</th>
                     <th>Priority</th> 
             `;
 
-      tablehead.appendChild(tableheading);
-      table.appendChild(tablehead);
-
-      const tablebody = document.createElement('tbody');
-      table.appendChild(tablebody);
+    const tablebody = document.createElement('tbody');
+    table.appendChild(tablebody);
+    for (let i = 0; i < listtasks.length; i += 1) {
       for (let j = 0; j < listtasks[i].todos.length; j += 1) {
         const varnew = listtasks[i].todos[j].date;
         const { status } = listtasks[i].todos[j];
@@ -287,12 +286,12 @@ export function dom() {
   }
 
   function tomtodaydefaultlist(e) {
-  // console.log(formBtn);
     formBtn.classList.add('d-none');
 
     while (content1.lastElementChild) {
       content1.removeChild(content1.lastChild);
     }
+
     const listname = document.createElement('h4');
     content1.appendChild(listname);
     listname.setAttribute('class', 'text-center text-dark mb-4');
