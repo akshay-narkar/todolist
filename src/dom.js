@@ -198,6 +198,9 @@ export function dom() {
       // delbutton.setAttribute('id', 'deltask');
       delbutton.setAttribute('class', 'btn btn-danger deltask');
       delbutton.innerHTML = 'Delete';
+      if (varnew.status){
+        tablerow.classList.add('strikethrough');
+      }
     }
     tablebody.appendChild(tablerow);
   }
