@@ -2,6 +2,7 @@ const submitlist = document.querySelector('#submitlist');
 const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
 // const listoflist1 = document.querySelectorAll('.listoflist');
+const formdisplay = document.getElementById('form-display');
 const list = document.getElementById('list');
 const readRadios1 = document.querySelectorAll('.radiobtn');
 const task = document.querySelector('#task');
@@ -109,8 +110,9 @@ function logic(dom1) {
   };
 
   submitlist.addEventListener('click', createlist);
-  list.value = '';
+
   submittask.addEventListener('click', createtask);
   edittask.addEventListener('click', edittaskform);
+  formdisplay.reset();
 }
 export default logic;
