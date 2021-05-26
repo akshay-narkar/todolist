@@ -14,36 +14,25 @@ export const readRadios1edit = document.querySelectorAll('.radiobtnedit');
 export const taskedit = document.getElementById('taskedit');
 export const dateedit = document.getElementById('dateedit');
 export const canceledittask = document.getElementById('canceledittask');
-export const cancellist =  document.getElementById('cancellist');
-export const editformdisplay = document.getElementById('editingform');
+export const cancellist = document.getElementById('cancellist');
+export const editingform = document.getElementById('editingform');
 export const cancelcreatetask = document.getElementById('cancelcreatetask');
 export const formdisplay = document.getElementById('form-display');
-
-
 // export const submitlist = document.querySelector('#submitlist')
 // export const submittask = document.querySelector('#submittask')
 
 export function dom() {
-
-  
   cancellist.addEventListener('click', () => {
-  
-      showlist.classList.add('d-none')
-
+    showlist.classList.add('d-none');
   });
 
   canceledittask.addEventListener('click', () => {
-  
-      editformdisplay.classList.add('d-none')
-
+    editingform.classList.add('d-none');
   });
 
   cancelcreatetask.addEventListener('click', () => {
-  
-      formdisplay.classList.add('d-none')
-
+    formdisplay.classList.add('d-none');
   });
- 
 
   formBtn.addEventListener('click', () => {
     if (localStorage.getItem('selectedlist')) {
