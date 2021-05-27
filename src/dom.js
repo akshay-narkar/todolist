@@ -12,9 +12,9 @@ const content1 = document.getElementById('currentclassname');
 const defaultlisthome = document.getElementById('defaultlist');
 const defaulttomhome = document.getElementById('tommorrowlist');
 const defaulttodayhome = document.getElementById('todaylist');
-const readRadios1edit = document.querySelectorAll('.radiobtnedit');
-const taskedit = document.getElementById('taskedit');
-const dateedit = document.getElementById('dateedit');
+export const readRadios1edit = document.querySelectorAll('.radiobtnedit');
+export const taskedit = document.getElementById('taskedit');
+export const dateedit = document.getElementById('dateedit');
 const canceledittask = document.getElementById('canceledittask');
 const cancellist = document.getElementById('cancellist');
 const editingform = document.getElementById('editingform');
@@ -59,6 +59,8 @@ export function dom() {
   refreshlist.addEventListener('click', () => {
     if (localStorage.getItem('selectedlist')) {
       localStorage.removeItem('selectedlist');
+      localStorage.removeItem('selectedtask');
+
       while (content1.lastElementChild) {
         content1.removeChild(content1.lastChild);
       }
@@ -267,10 +269,11 @@ export function dom() {
         const { status } = listtasks[i].todos[j];
         const date1 = new Date(varnew);
         const date2 = new Date();
-        const finaldate = Math.round((date2 - date1) / (1000 * 3600 * 24));
-        if (name === 'Tomorrow' && finaldate === -1 && status === false) {
+        const finaldate = (date2 - date1) / (1000 * 3600 * 24);
+
+        if (name === 'Tomorrow - [View-Only]' && (finaldate < 0 && finaldate > -1.10) && status === false) {
           showalltasks(listtasks, i, j, tablebody, name);
-        } else if (name === 'Today' && finaldate === 0 && status === false) {
+        } else if (name === 'Today - [View-Only]' && (finaldate >= 0 && finaldate <= 1) && status === false) {
           showalltasks(listtasks, i, j, tablebody, name);
         }
       }
@@ -283,7 +286,6 @@ export function dom() {
     while (content1.lastElementChild) {
       content1.removeChild(content1.lastChild);
     }
-
     const listname = document.createElement('h4');
     content1.appendChild(listname);
     listname.setAttribute('class', 'text-center text-dark mb-4');
