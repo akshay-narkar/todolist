@@ -1,10 +1,6 @@
 import './stylesheet.scss';
 import * as dom1 from './dom';
-import logic from './logic';
-// import * as dom2 from './dom2';
-dom1.dom();
-logic(dom1);
-// dom2.dom();
+import * as logic1 from './logic';
 
-// const listoflist1 = document.querySelector('#projectlist1');
-// console.log(listoflist1);
+dom1.dom();
+logic1.logic(dom1);
