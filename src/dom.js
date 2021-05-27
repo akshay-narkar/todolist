@@ -1,5 +1,3 @@
-// let showForm = document.querySelector('#form-btn');
-
 import {
   localstorage1, deletetasklogic, checkboxtrue, checkboxfalse,
 } from './logic';
@@ -44,7 +42,9 @@ export function dom() {
         showForm.classList.add('d-none');
       }
     } else {
-      $('#myModal').modal('show'); 
+      /*eslint-disable */
+      $('#myModal').modal('show');
+      /* eslint-enable */
     }
   });
 
