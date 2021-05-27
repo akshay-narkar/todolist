@@ -1,7 +1,6 @@
 const submitlist = document.querySelector('#submitlist');
 const submittask = document.querySelector('#submittask');
 const listname = document.querySelector('#defaultlist');
-// const listoflist1 = document.querySelectorAll('.listoflist');
 const formdisplay = document.getElementById('form-display');
 const list = document.getElementById('list');
 const readRadios1 = document.querySelectorAll('.radiobtn');
@@ -9,7 +8,30 @@ const task = document.querySelector('#task');
 const date = document.querySelector('#date');
 const edittask = document.querySelector('#edittask');
 
-function logic(dom1) {
+export function localstorage1() {
+  let liststasks = [];
+  if (localStorage.getItem('liststore')) {
+    liststasks = JSON.parse(localStorage.liststore);
+  }
+  return liststasks;
+}
+
+export function deletetasklogic(i, remove, listtasks) {
+  listtasks[i].todos.splice(remove, 1);
+  localStorage.setItem('liststore', JSON.stringify(listtasks));
+}
+
+export function checkboxfalse(listtasks, i, remove) {
+  listtasks[i].todos[remove].status = false;
+  localStorage.setItem('liststore', JSON.stringify(listtasks));
+}
+
+export function checkboxtrue(listtasks, i, remove) {
+  listtasks[i].todos[remove].status = true;
+  localStorage.setItem('liststore', JSON.stringify(listtasks));
+}
+
+export function logic(dom1) {
   class Createlist1 {
     constructor(list) {
       this.list = list;
@@ -24,19 +46,12 @@ function logic(dom1) {
     this.status = status;
   }
 
-  let liststasks = [];
+  const liststasks = [];
 
   if (!localStorage.getItem('liststore')) {
     const listdefault = new Createlist1(listname.textContent);
     liststasks.push(listdefault);
     localStorage.setItem('liststore', JSON.stringify(liststasks));
-  }
-
-  function localstorage1() {
-    if (localStorage.getItem('liststore')) {
-      liststasks = JSON.parse(localStorage.liststore);
-    }
-    return liststasks;
   }
 
   const createlist = (e) => {
@@ -90,7 +105,6 @@ function logic(dom1) {
         }
       }
 
-      //  console.log(readRadios1.checked.value)
       const tasks = new Createtask1(date.value, task.value, readradiovalue1, false);
 
       for (let i = 0; i < listtasks.length; i += 1) {
@@ -105,8 +119,7 @@ function logic(dom1) {
 
       e.preventDefault();
       window.location.reload();
-    } else { alert('Please select a list'); }
-    // localStorage.setItem('liststore', JSON.stringify(liststasks));
+    }
   };
 
   submitlist.addEventListener('click', createlist);
@@ -115,4 +128,3 @@ function logic(dom1) {
   edittask.addEventListener('click', edittaskform);
   formdisplay.reset();
 }
-export default logic;
